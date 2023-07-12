@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en" style="background: #000;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Instagram</title>
+    <link rel="stylesheet" href="/static/style/style.css">
+    <link rel="icon" href="/static/img/web_img/rel_icon_instagram.png">
+</head>
+<body>
+<div class="header"></div>
+<header>
+    <nav>
+        <img src="/static/img/web_img/Instagram_white_logo.png" alt="Instagram"
+             style="width: 100px;height: 28px; margin-bottom: 30px;">
+        <div class="nav_func">
+            <a href="{{ url_for('index') }}" class="func">
+                <i class="fa-solid fa-house"></i> Главная
+            </a>
+            <a href="#" class="func">
+                <i class="fa-solid fa-magnifying-glass"></i> Поисковый запрос
+            </a>
+            <a href="#" class="func">
+                <i class="fa-regular fa-compass"></i> Интересное
+            </a>
+            <a href="{{ url_for('reels') }}" class="func">
+                <img src="/static/img/web_img/reels_img.png" alt=""> Reels
+            </a>
+            <a href="#" class="func">
+                <i class="fa-brands fa-facebook-messenger"></i> Сообщения
+            </a>
+            <a href="#" class="func">
+                <i class="fa-regular fa-heart"></i> Уведомления
+            </a>
+            <div class="func creat_post   ">
+                <img src="/static/img/web_img/creat_img.png" alt=""> Создать
+            </div>
+            <a href="{{ url_for('user') }}" class="func">
+                <img src="{{ user_now.photo }}" alt=""> Профиль
+            </a>
+        </div>
+    </nav>
+    <div class="log_out" style="width: 100%;">
+        <div class="func">
+            <i class="fa-solid fa-bars"></i> Ещё
+            <div class="log_out_a"><a href="{{ url_for('log_out') }}">Выйтиь</a></div>
+        </div>
+    </div>
+</header>
+{% block body %}
+    <section class="index">
+        <div class="index_column" style="margin-right: 70px;">
+            <div class="index_users">
+                <div class="prev_user"><i class="fa-solid fa-angle-left"></i></div>
+                {% for follower in recomend %}
+                    {% for chanel in user_now.chanel %}
+                        {% if follower.id == chanel.id %}
+                            <a href="{{ url_for('another_user', user_id=follower.id) }}" class="index_user">
+                                <img src="/static/img/web_img/accaunt_restangle.png" alt="" class="restangel_img">
+                                <img src="{{ follower.photo }}" alt="" class="index_user_img">
+                                <p>{{ follower.username }}</p>
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+
+                <div class="next_user"><i class="fa-solid fa-angle-right"></i></div>
+            </div>
+            <div class="reels_index">
+                {% for post in all_post %}
+                    <div class="reels_box">
+                        <div class="reels_author">
+                            <div class="author_img">
+                                <img src="/static/img/web_img/accaunt_restangle.png" alt="" class="restangel_img">
+                                {% for user in post.user %}
+                                    <img src="{{ user.photo }}" alt="" class="index_user_img">
+                                {% endfor %}
+                            </div>
+                            <div class="author_name">
+                                {% for user in post.user %}
+                                    <a href="#">{{ user.username }}</a>
+                                {% endfor %}
+                                <p>Оригинальная аудиодорожка</p>
+                            </div>
+                            <div class="ellipsis">
+                                <i class="fa-solid fa-ellipsis"></i>
+                            </div>
+                        </div>
+                        <div class="reels_move">
+                            {% if '.mp4' in post.file %}
+                                <video>
+                                    <source src="{{ post.file }}" type="video/mp4">
+                                </video>
+                                <div class="video_play">
+                                    <i class="fa-solid fa-play"></i>
+                                </div>
+                            {% else %}
+                                <img src="{{ post.file }}" alt="">
+                            {% endif %}
+                        </div>
+                        <div class="reels_info">
+                            <div class="icon_row">
+                                <div class="move_func_icons">
+                                    <div class="none_post_id" style="display: none">{{ post.id }}</div>
+                                    <div class="heart">
+                                        {% for like in user_now.like_user %}
+                                            {% if post.id == like.id %}
+                                                <a href="{{ url_for('delete_like', post_id=post.id) }}">
+                                                    <i class="fa-solid fa-heart"
+                                                       style="color: red; font-size: 24px"></i>
+                                                </a>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <i class="fa-regular fa-comment"></i>
+                                    <i class="fa-regular fa-paper-plane"></i>
+                                </div>
+                                <div class="save">
+                                    {% if post in user_now.save %}
+                                        <a href="{{ url_for('delete_save', post_id=post.id) }}" style="font-size: inherit; color: #fff"><i
+                                                class="fa-solid fa-bookmark"></i></a>
+                                    {% else %}
+                                        <a href="{{ url_for('save', post_id=post.id) }}" style="font-size: inherit"><i
+                                                class="fa-regular fa-bookmark"></i></a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="like_info">
+                                <p style="margin-right: 5px;">{{ post.like }}</p>отметок "Нравится"
+                            </div>
+                            <div class="author_commentary">
+                                <div class="post_bio_js">
+                                    {% for user in post.user %}
+                                        {{ user.username }} : {{ post.bio }}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="all_commentary">
+                                ещё
+                            </div>
+                            <p class="translate">Показать перевод</p>
+                            <a href="{{ url_for('window_reels', post_id=post.id) }}">Посмотреть все комментарии
+                                ({{ post.length_comment }})</a>
+                            <div class="add_commentary">
+                                <form action="{{ url_for('add_comment', post_id=post.id) }}" method="post">
+                                    <input type="text" placeholder="Добавьте комментарий..." name="comment">
+                                    <button>Опубликовать</button>
+                                    <i class="fa-regular fa-face-smile" style="color: #a8a8a8;margin-left: 5px;"></i>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <footer style="margin-top: 70px;">
+                    <div class="footer_row">
+                        <a href="#">Информация</a><a href="#">Помощь</a><a href="#">Вакансии</a>
+                        <a href="#">API</a><a href="#">Конфиденциальность</a><a href="#">Условия</a><a href="#">Популярные
+                        аккаунты</a>
+                        <a href="#">Места</a><a href="#">Язык</a><a href="#">Meta Verified</a>
+                    </div>
+                    <div class="footer_row">
+                        <a href="#" style="text-transform: uppercase">© 2023 Instagram from Meta</a></div>
+                </footer>
+            </div>
+        </div>
+        <div class="index_column_style" style="padding-top: 20px;">
+            <div class="session_user">
+                <div class="session_img">
+                    <img src="{{ user_now.photo }}" alt="" class="index_user_img">
+                </div>
+                <div class="session_name">
+                    <div class="name">{{ user_now.username }}</div>
+                    <div class="full_name">{{ user_now.name }}</div>
+                </div>
+                <a href="{{ url_for('log_out') }}">Переключиться</a>
+            </div>
+            <div class="recommendation_user">
+                <div class="recommendation_title">
+                    <p>Рекомендации для вас</p><a class="all_user_index">Все</a>
+                </div>
+                {% for user in rec_user %}
+                    {% if user.id != user_now.id %}
+                        <div class="recommendation_box">
+                            <a href="{{ url_for('another_user', user_id=user.id) }}">
+                                <div class="rec_img">
+                                    <img src="{{ user.photo }}" alt="" class="index_user_img">
+                                    <div class="name">{{ user.username }}</div>
+                                </div>
+                            </a>
+                            <div class="rec_follow">
+                                <a href="{{ url_for('follow', user_id=user.id) }}">Подписаться</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <footer style="margin-top: 50px;">
+                <div class="footer_row">
+                    <a href="#">Информация</a><a href="#">Помощь</a><a href="#">Вакансии</a>
+                    <a href="#">API</a><a href="#">Конфиденциальность</a><a href="#">Условия</a><a href="#">Популярные
+                    аккаунты</a>
+                    <a href="#">Места</a><a href="#">Язык</a><a href="#">Meta Verified</a>
+                </div>
+                <div class="footer_row">
+                    <a href="#" style="text-transform: uppercase">© 2023 Instagram from Meta</a></div>
+            </footer>
+        </div>
+    </section>
+{% endblock %}
+{% block modal_window %}
+    <section class="add_post_section">
+        <div class="add_post">
+            <div class="add_post_row">
+                <i class="fa-solid fa-xmark" style="font-size: 16px"></i>
+                <p>Создание публикации</p>
+                <div class="button_add_post" style="opacity: 0;">Поделиться</div>
+            </div>
+            <form action="{{ url_for('add_post') }}" method="post" enctype="multipart/form-data">
+                <div class="add_post_file" style="background: #1a1a1a;display: flex; justify-content: center">
+                    <input type="file" name="img">
+                    <div class="add_post_file_img"></div>
+                </div>
+                <div class="add_post_info" style="border: 1px solid #363636">
+                    <div class="add_post_author">
+                        <img src="{{ user_now.photo }}" alt="photo">
+                        <p>{{ user_now.username }}</p>
+                    </div>
+                    <textarea name="bio" id="bio" maxlength="2200" placeholder="Добавьте подпись…"></textarea>
+                </div>
+                <button class="add_post_btn">Поделиться</button>
+            </form>
+        </div>
+    </section>
+{% endblock %}
+<script src="https://kit.fontawesome.com/d17442df75.js" crossorigin="anonymous"></script>
+<script src="/static/js/script.js"></script>
+</body>
+</html>

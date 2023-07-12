@@ -1,0 +1,116 @@
+{% extends 'index.html' %}
+{% block modal_window %}
+    <section class="window_reels" style="color: #fff;">
+        <a href="{{ url_for('index') }}">
+            <div class="x_mark"><i class="fa-solid fa-xmark"></i></div>
+        </a>
+        <div class="reels_section">
+            <div class="window_reels_box">
+                <div class="reels_move" style="width: 500px;">
+                    {% if '.mp4' in post_now.file %}
+                        <video>
+                            <source src="{{ post_now.file }}" type="video/mp4">
+                        </video>
+                        <div class="video_play">
+                            <i class="fa-solid fa-play"></i>
+                        </div>
+                    {% else %}
+                        <img src="{{ post_now.file }}" alt="">
+                    {% endif %}
+                </div>
+                <div class="reels_comment">
+                    <div class="reels_align_start">
+                        <div class="reels_info" style="max-height: 70px">
+                            <div class="_reels_author_">
+                                <a href="{{ url_for('user') }}">
+                                    {% for user in post_now.user %}
+                                        <img src="{{ user.photo }}" alt="">
+                                        <div class="reels_author_name">
+                                            {{ user.username }}
+                                            <p style="font-size: 12px">Оригинальная аудиодорожка</p>
+                                        </div>
+                                        <div class="ellipsis" style="right: -200px;">
+                                            <i class="fa-solid fa-ellipsis"></i>
+                                        </div>
+                                    {% endfor %}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="reels_info_comment">
+                            <div class="post_bio_author">
+                                <a href="{{ url_for('user') }}">
+                                    {% for user in post_now.user %}
+                                        <div class="reels_comment_img_box">
+                                            <img src="/static/img/web_img/accaunt_restangle.png" alt=""
+                                                 class="restangel_img" style="width: 42px;height: 42px;left: -5px;">
+                                            <img src="{{ user.photo }}" alt="" style="width: 32px;height: 32px;">
+                                        </div>
+                                        <div class="post_bio">
+                                            <p>{{ user.username }}</p>{{ post_now.bio }}
+                                        </div>
+                                        <span class="width15" style="width: 15px;"></span>
+                                    {% endfor %}
+                                </a>
+                            </div>
+                            {% for foo in post_now.comment %}
+                                {% for user in foo.user %}
+                                    <div class="other_comment_box">
+                                        <a href="{{ url_for('another_user', user_id=user.id) }}">
+                                            <div class="reels_comment_img_box">
+                                                <img src="{{ user.photo }}" alt="">
+                                            </div>
+                                            <div class="post_bio">
+                                                <p>{{ user.username }}</p>{{ foo.comment }}
+                                            </div>
+                                            <div class="heart"><i class="fa-regular fa-heart"></i></div>
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="reels_align_end">
+                        <div class="reels_info_icon_row">
+                            <div class="icon_row" style="margin-top: 0;padding: 15px 0;">
+                                <div class="move_func_icons">
+                                    <div class="none_post_id" style="display: none">{{ post_now.id }}</div>
+                                    <div class="heart">
+                                        {% for like in user_now.like_user %}
+                                            {% if post_now.id == like.id %}
+                                                <a href="{{ url_for('delete_like', post_id=post_now.id) }}">
+                                                    <i class="fa-solid fa-heart"
+                                                       style="color: red; font-size: 24px"></i>
+                                                </a>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <i class="fa-regular fa-comment"></i>
+                                    <i class="fa-regular fa-paper-plane"></i>
+                                </div>
+                                <div class="save">
+                                    {% if post_now in user_now.save %}
+                                        <a href="{{ url_for('delete_save', post_id=post_now.id) }}" style="font-size: inherit; color: #fff"><i
+                                                class="fa-solid fa-bookmark"></i></a>
+                                    {% else %}
+                                        <a href="{{ url_for('save', post_id=post_now.id) }}" style="font-size: inherit"><i
+                                                class="fa-regular fa-bookmark"></i></a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <p style="margin-bottom: 15px;">{{ post_now.like }} отметок "Нравится"</p>
+                        </div>
+                        <div class="add_commentary">
+                            <form action="{{ url_for('add_comment', post_id=post_now.id) }}" method="post">
+                                <i class="fa-regular fa-face-smile" style="font-size: 24px;color: #f5f5f5;"></i>
+                                <input type="text" placeholder="Добавьте комментарий..." name="comment">
+                                <div class="opacity_zero" style="width: 100px;">
+                                    <button>Опубликовать</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'index.html' %}
+{% block body %}
+    <section class="user_edit">
+        <div class="edit_img">
+            <div class="edit_window">
+                <img src="{{ user_now.photo }}" alt="img">
+                <form action="{{ url_for('edit_user') }}" method="post" enctype="multipart/form-data">
+                    <input type="file" name="img">
+                    <div class="exit_img">Отмена</div>
+                    <button name="edit_img" value="True">Edit</button>
+                </form>
+            </div>
+        </div>
+        <div class="edit_info">
+            <p style="font-size: 24px; color: #fff; margin-bottom: 100px;">Редактировать профиль</p>
+            <div class="user_img">
+                <div class="user_img_img">
+                    <img src="{{ user_now.photo }}" alt="img" style="border-radius: 50%; width: 38px;height: 38px;">
+                </div>
+                <div class="user_img_info">
+                    <p>{{ user_now.username }}</p>
+                    <div class="edit_img_btn" style="cursor: pointer;color: #0095F6; font-size: 14px">Изменить фото
+                        профиля
+                    </div>
+                </div>
+            </div>
+            <form action="{{ url_for('edit_user') }}" method="post">
+                <div class="edit_input"><p>E-mail or phone</p><input type="text" name="phone_email"
+                                                                     value="{{ user_now.phone }}"
+                                                                     placeholder="Enter your phone or email"></div>
+                <div class="edit_input"><p>Name</p><input type="text" name="name" placeholder="Enter_ your name"
+                                                          value="{{ user_now.name }}"></div>
+                <div class="edit_input"><p>Username</p><input type="text" name="username"
+                                                              value="{{ user_now.username }}"
+                                                              placeholder="Enter your username"></div>
+                <div class="edit_input"><p>Password</p><input type="password" name="password"
+                                                              value="{{ user_now.password }}"
+                                                              placeholder="Enter your password"></div>
+                <div class="edit_input"><p>Bio</p><textarea name="bio" maxlength="150"
+                                                            placeholder="Enter your bio">{{ user_now.bio }}</textarea></div>
+                <button class="edit_btn" name="edit_info" value="True">Изменить</button>
+            </form>
+        </div>
+    </section>
+{% endblock %}

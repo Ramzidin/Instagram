@@ -1,0 +1,107 @@
+{% extends 'another_user.html' %}
+{% block user_edit %}
+    <a href="{{ url_for('edit_user') }}">Редактировать</a>
+    <button>+<i class="fa-regular fa-user"></i></button>
+{% endblock %}
+{% block user_save %}
+    <div class="pun_info_name border_active">
+        <i class="fa-solid fa-table-cells"></i> Публикации
+    </div>
+    <div class="pun_info_name">
+        <i class="fa-solid fa-bookmark"></i> СОХРАНЕННОЕ
+    </div>
+    <div class="pun_info_name">
+        <i class="fa-solid fa-user-group"></i> Близкие друзья
+    </div>
+{% endblock %}
+{% block user_window %}
+    <div class="publication_video">
+        {% for post in user_post %}
+            <div class="video_pub">
+                {% if '.mp4' in post.file %}
+                    <video>
+                        <source src="{{ post.file }}" type="video/mp4">
+                    </video>
+                    <img src="/static/img/web_img/reels_img.png" alt="icon" class="video_reels_iconx">
+                {% else %}
+                    <img src="{{ post.file }}" alt="" class="video_pub_img">
+                {% endif %}
+                <a class="video_info" href="{{ url_for('window_reels', post_id=post.id) }}">
+                    <div class="video_info_box">
+                        <i class="fa-solid fa-heart"></i> {{ post.like }}
+                    </div>
+                    <div class="video_info_box">
+                        <i class="fa-solid fa-comment"></i> {{ post.length_comment }}
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="publication_video" style="display: none">
+        {% for post in user_now.save %}
+            <div class="video_pub">
+                {% if '.mp4' in post.file %}
+                    <video>
+                        <source src="{{ post.file }}" type="video/mp4">
+                    </video>
+                    <img src="/static/img/web_img/reels_img.png" alt="icon" class="video_reels_iconx">
+                {% else %}
+                    <img src="{{ post.file }}" alt="" class="video_pub_img">
+                {% endif %}
+                <a class="video_info" href="{{ url_for('window_reels', post_id=post.id) }}">
+                    <div class="video_info_box">
+                        <i class="fa-solid fa-heart"></i> {{ post.like }}
+                    </div>
+                    <div class="video_info_box">
+                        <i class="fa-solid fa-comment"></i> {{ post.length_comment }}
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="publication_video friends_video" style="display: none">
+        <div class="friends_section">
+            <div class="friends_info_row"><p>{{ all_friends }} человек</p><a href="{{ url_for('delete_all_friends') }}" style="color: #0095F6;">Очистить все</a></div>
+            {% for friend in friends.friends_user %}
+                <div class="friends_box">
+                    <a href="{{ url_for('another_user', user_id=friend.id) }}">
+                        <div class="friends_user_info">
+                            <img src="{{ friend.photo }}" alt="{{ friend.username }}">
+                            <p>{{ friend.username }}</p>
+                        </div>
+                    </a>
+                    <a href="{{ url_for('delete_friends', user_id=friend.id) }}"
+                       style="border: none; background: #0095F6;" class="friends_a"><i
+                            class="fa-solid fa-check"></i></a>
+                </div>
+            {% endfor %}
+            <hr style="border: none;border-bottom: 1px solid #737373;width: 400px;">
+            <p style="width: 300px;text-align: left; margin-bottom: 15px;">Рекомендации</p>
+            {% for user in follow_user %}
+                {% if not(user in friends.friends_user) %}
+                    <div class="friends_box">
+                        <a href="{{ url_for('another_user', user_id=user.id) }}">
+                            <div class="friends_user_info">
+                                <img src="{{ user.photo }}" alt="{{ user.username }}">
+                                <p>{{ user.username }}</p>
+                            </div>
+                        </a>
+                        <a href="{{ url_for('add_friends', user_id=user.id) }}" class="friends_a"></a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+

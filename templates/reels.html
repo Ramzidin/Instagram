@@ -1,0 +1,90 @@
+{% extends 'index.html' %}
+{% block body %}
+    <section class="reels">
+        {% for post in all_post %}
+            <div class="reels_move_box">
+                <div class="reels_video">
+                    {% if '.mp4' in post.file %}
+                        <video>
+                            <source src="{{ post.file }}" type="video/mp4">
+                        </video>
+                        <div class="video_play">
+                            <i class="fa-solid fa-play"></i>
+                        </div>
+                    {% else %}
+                        <img src="{{ post.file }}" alt="">
+                    {% endif %}
+                </div>
+                <div class="reels_author_info">
+                    {% for user in post.user %}
+                        <a href="{{ url_for('another_user', user_id=user.id) }}">
+                            <div class="reels_author_">
+                                <div class="reels_author_row"><img src="{{ user.photo }}" alt="">
+                                    <p>{{ user.username }}</p>·
+                                </div>
+                                {% if not(user.id == user_now.id) and user in followers.follow_user %}
+                                    <a href="{{ url_for('delete_follow', user_id=user.id) }}"
+                                       style="padding: 5px 7px;border: 1px solid #ffffff79;border-radius: 5px;">
+                                        Oтписаться</a>
+                                {% elif not(user.id == user_now.id) %}
+                                    <a href="{{ url_for('follow', user_id=user.id) }}"
+                                       style="padding: 5px 7px;border: 1px solid #ffffff79;border-radius: 5px;">
+                                        Подписаться</a>
+                                {% endif %}
+                            </div>
+                        </a>
+                        <a href="{{ url_for('window_reels', post_id=post.id) }}">
+                            <div class="about_reels">
+                                <p>{{ post.bio }}</p>
+                            </div>
+                        </a>
+                        <a href="{{ url_for('window_reels', post_id=post.id) }}">
+                            <p>{{ user.username }} · Оригинальная аудиодорожка</p>
+                        </a>
+                    {% endfor %}
+                </div>
+                <div class="reels_icon_column">
+                    <div class="reels_icon_box">
+                        <div class="heart">
+                            {% for like in user_now.like_user %}
+                                {% if post.id == like.id %}
+                                    <a href="{{ url_for('delete_like', post_id=post.id) }}">
+                                        <i class="fa-solid fa-heart"
+                                           style="color: red; font-size: 24px"></i>
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        {{ post.like }}
+                    </div>
+                    <a href="{{ url_for('window_reels', post_id=post.id) }}">
+                        <div class="reels_icon_box">
+                            <i class="fa-regular fa-comment"></i> {{ post.length_comment }}
+                        </div>
+                    </a>
+                    <div class="reels_icon_box">
+                        <i class="fa-regular fa-paper-plane"></i>
+                    </div>
+                    <div class="reels_icon_box">
+                        {% if post in user_now.save %}
+                            <a href="{{ url_for('delete_save', post_id=post.id) }}"
+                               style="font-size: inherit; color: #fff"><i
+                                    class="fa-solid fa-bookmark"></i></a>
+                        {% else %}
+                            <a href="{{ url_for('save', post_id=post.id) }}" style="font-size: inherit"><i
+                                    class="fa-regular fa-bookmark"></i></a>
+                        {% endif %}
+                    </div>
+                    <div class="reels_icon_box">
+                        <i class="fa-solid fa-ellipsis"></i>
+                    </div>
+                    <div class="reels_icon_box">
+                        {% for user in post.user %}
+                            <img src="{{ user.photo }}" alt="">
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </section>
+{% endblock %}

@@ -1,0 +1,212 @@
+{% extends 'index.html' %}
+{% block body %}
+    <section class="another_user">
+        <div class="other_user_info">
+            <div class="other_img">
+                <img src="{{ user.photo }}" alt="">
+            </div>
+            <div class="other_func_follows">
+                <div class="other_row">
+                    <div class="other_name">
+                        {{ user.username }}
+                    </div>
+                    <div class="other_btn">
+                        {% block user_edit %}
+                            <div class="user_id" style="display: none">{{ user.id }}</div>
+                            <div class="follow_delete">
+                                {% if user_now in another_chanel.follow_user %}
+                                    <a href="{{ url_for('delete_follow', user_id=user.id) }}">Oтписаться</a>
+                                    <button>Отправить сообщение</button>
+                                {% else %}
+                                    <a href="{{ url_for('follow', user_id=user.id) }}"
+                                       style="background: #0095F6;color: #fff">Подписаться</a>
+                                {% endif %}
+                            </div>
+                            <button>+<i class="fa-regular fa-user"></i></button>
+                        {% endblock %}
+                    </div>
+                    <i class="fa-solid fa-ellipsis" style="margin-left: 15px;"></i>
+                </div>
+                <div class="other_row">
+                    <div class="number_follow">
+                        {{ user.publications }} публикаций
+                    </div>
+                    <div class="number_follow follow_window">
+                        {{ user.followers }} подписчиков
+                    </div>
+                    <div class="number_follow follow_window">
+                        {{ user.following }} подпискa
+                    </div>
+                </div>
+                <div class="follow_or_follower_modal_window">
+                    <div class="user_follow_window">
+                        <div class="window_row">
+                            <p>Подписчиков</p><i class="fa-solid fa-xmark"></i>
+                        </div>
+                        <div class="follow_box">
+                            {% for user in another_chanel.follow_user %}
+                                {% if not(user in rec_user) %}
+                                    {% if user.id == user_now.id %}
+                                        <a href="{{ url_for('user') }}">
+                                            <div class="user_follow_box">
+                                                <div class="rec_img">
+                                                    <img src="{{ user.photo }}" alt="" class="index_user_img">
+                                                    <div class="name">{{ user.username }}</div>
+                                                </div>
+                                                <a href="" style="opacity: 0; cursor: auto">Oтписаться</a>
+                                            </div>
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ url_for('another_user', user_id=user.id) }}">
+                                            <div class="user_follow_box">
+                                                <div class="rec_img">
+                                                    <img src="{{ user.photo }}" alt="" class="index_user_img">
+                                                    <div class="name">{{ user.username }}</div>
+                                                </div>
+                                                <a href="{{ url_for('delete_follow', user_id=user.id) }}" class="asdf">Oтписаться</a>
+                                            </div>
+                                        </a>
+                                    {% endif %}
+                                {% else %}
+                                    {% if user.id == user_now.id %}
+                                        <a href="{{ url_for('user') }}">
+                                            <div class="user_follow_box">
+                                                <div class="rec_img">
+                                                    <img src="{{ user.photo }}" alt="" class="index_user_img">
+                                                    <div class="name">{{ user.username }}</div>
+                                                </div>
+                                                <a href="" style="opacity: 0; cursor: auto">Oтписаться</a>
+                                            </div>
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ url_for('another_user', user_id=user.id) }}">
+                                            <div class="user_follow_box">
+                                                <div class="rec_img">
+                                                    <img src="{{ user.photo }}" alt="" class="index_user_img">
+                                                    <div class="name">{{ user.username }}</div>
+                                                </div>
+                                                <a href="{{ url_for('follow', user_id=user.id) }}"
+                                                   style="background: #0095F6;color: #fff" class="asdf">Подписаться</a>
+                                            </div>
+                                        </a>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="user_follow_window">
+                        <div class="window_row">
+                            <p>Подпискa</p><i class="fa-solid fa-xmark"></i>
+                        </div>
+                        <div class="follow_box">
+                            {% for user in follow_user %}
+                                {% if not(user in rec_user) %}
+                                    {% if user.id == user_now.id %}
+                                        <a href="{{ url_for('user') }}">
+                                            <div class="user_follow_box">
+                                                <div class="rec_img">
+                                                    <img src="{{ user.photo }}" alt="" class="index_user_img">
+                                                    <div class="name">{{ user.username }}</div>
+                                                </div>
+                                                <a href="" style="opacity: 0; cursor: auto">Oтписаться</a>
+                                            </div>
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ url_for('another_user', user_id=user.id) }}">
+                                            <div class="user_follow_box">
+                                                <div class="rec_img">
+                                                    <img src="{{ user.photo }}" alt="" class="index_user_img">
+                                                    <div class="name">{{ user.username }}</div>
+                                                </div>
+                                                <a href="{{ url_for('delete_follow', user_id=user.id) }}" class="asdf">Oтписаться</a>
+                                            </div>
+                                        </a>
+                                    {% endif %}
+                                {% else %}
+                                    {% if user.id == user_now.id %}
+                                        <a href="{{ url_for('user') }}">
+                                            <div class="user_follow_box">
+                                                <div class="rec_img">
+                                                    <img src="{{ user.photo }}" alt="" class="index_user_img">
+                                                    <div class="name">{{ user.username }}</div>
+                                                </div>
+                                                <a href="" style="opacity: 0; cursor: auto">Oтписаться</a>
+                                            </div>
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ url_for('another_user', user_id=user.id) }}">
+                                            <div class="user_follow_box">
+                                                <div class="rec_img">
+                                                    <img src="{{ user.photo }}" alt="" class="index_user_img">
+                                                    <div class="name">{{ user.username }}</div>
+                                                </div>
+                                                <a href="{{ url_for('follow', user_id=user.id) }}"
+                                                   style="background: #0095F6;color: #fff">Подписаться</a>
+                                            </div>
+                                        </a>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="other_row">
+                    {{ user.bio }}
+                </div>
+            </div>
+        </div>
+        <div class="other_user_publication">
+            <div class="publication_info">
+                {% block user_save %}
+                    <div class="pun_info_name border_active">
+                        <i class="fa-solid fa-table-cells"></i> Публикации
+                    </div>
+                    <div class="pun_info_name">
+                        <img src="/static/img/web_img/reels_img.png" alt="icon"
+                             style="width: 12px;height: 12px;margin-right: 5px;"> Reels
+                    </div>
+                    <div class="pun_info_name">
+                        <i class="fa-solid fa-clipboard-user"></i> Отметки
+                    </div>
+                {% endblock %}
+            </div>
+            {% block user_window %}
+                <div class="publication_video">
+                    {% for post in user_post %}
+                        <div class="video_pub">
+                            {% if '.mp4' in post.file %}
+                                <video>
+                                    <source src="{{ post.file }}" type="video/mp4">
+                                </video>
+                                <img src="/static/img/web_img/reels_img.png" alt="icon" class="video_reels_iconx">
+                            {% else %}
+                                <img src="{{ post.file }}" alt="" class="video_pub_img">
+                            {% endif %}
+                            <a class="video_info" href="{{ url_for('window_reels', post_id=post.id) }}">
+                                <div class="video_info_box">
+                                    <i class="fa-solid fa-heart"></i> {{ post.like }}
+                                </div>
+                                <div class="video_info_box">
+                                    <i class="fa-solid fa-comment"></i> {{ post.length_comment }}
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endblock %}
+        </div>
+        <footer>
+            <div class="footer_row">
+                <a href="#">Meta</a><a href="#">Информация</a><a href="#">Блог</a><a href="#">Вакансии</a><a
+                    href="#">Помощь</a>
+                <a href="#">API</a><a href="#">Конфиденциальность</a><a href="#">Условия</a><a href="#">Популярные
+                аккаунты</a>
+                <a href="#">Места</a><a href="#">Instagram Lite</a><a href="#">Загрузка контактов и лица, не являющиеся
+                пользователями</a><a href="#">Meta Verified</a>
+            </div>
+            <div class="footer_row">
+                <a href="#">Русский <i class="fa-solid fa-angle-down"></i></a><a href="#">© 2023 Instagram from Meta</a>
+            </div>
+        </footer>
+    </section>
+{% endblock %}
